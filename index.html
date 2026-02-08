@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Human Development Visualization</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Global Human Development Index</h1>
+            <p class="subtitle">Exploring human development across nations</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="controls">
+            <div class="control-group">
+                <label for="year-slider">Year:</label>
+                <input type="range" id="year-slider" min="2010" max="2023" value="2023" step="1">
+                <span id="year-display">2023</span>
+            </div>
+            <div class="control-group">
+                <label for="region-filter">Region:</label>
+                <select id="region-filter">
+                    <option value="all">All Regions</option>
+                    <option value="Africa">Africa</option>
+                    <option value="Asia">Asia</option>
+                    <option value="Europe">Europe</option>
+                    <option value="Americas">Americas</option>
+                    <option value="Oceania">Oceania</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="metric-select">Metric:</label>
+                <select id="metric-select">
+                    <option value="hdi">Human Development Index</option>
+                    <option value="lifeExpectancy">Life Expectancy</option>
+                    <option value="gdpPerCapita">GDP per Capita</option>
+                    <option value="education">Education Index</option>
+                </select>
+            </div>
+        </div>
+
+        <section class="visualization">
+            <div class="viz-container">
+                <h2>Country Rankings</h2>
+                <div id="bar-chart"></div>
+            </div>
+            
+            <div class="viz-container">
+                <h2>HDI vs GDP per Capita</h2>
+                <div id="scatter-plot"></div>
+            </div>
+            
+            <div class="viz-container">
+                <h2>Regional Comparison</h2>
+                <div id="regional-chart"></div>
+            </div>
+        </section>
+
+        <section class="data-table">
+            <h2>Country Data</h2>
+            <div class="table-wrapper">
+                <table id="country-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Country</th>
+                            <th>HDI</th>
+                            <th>Life Expectancy</th>
+                            <th>GDP per Capita</th>
+                            <th>Education Index</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="info">
+            <h2>About Human Development Index</h2>
+            <p>
+                The Human Development Index (HDI) is a composite statistic of life expectancy, 
+                education, and per capita income indicators, which are used to rank countries 
+                into four tiers of human development. A country scores a higher HDI when the 
+                lifespan is higher, the education level is higher, and the gross national income 
+                per capita is higher.
+            </p>
+            <div class="hdi-categories">
+                <div class="category very-high">
+                    <strong>Very High HDI</strong>
+                    <span>≥ 0.800</span>
+                </div>
+                <div class="category high">
+                    <strong>High HDI</strong>
+                    <span>0.700 - 0.799</span>
+                </div>
+                <div class="category medium">
+                    <strong>Medium HDI</strong>
+                    <span>0.550 - 0.699</span>
+                </div>
+                <div class="category low">
+                    <strong>Low HDI</strong>
+                    <span>&lt; 0.550</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Data Source: United Nations Development Programme (UNDP)</p>
+            <p>Visualization created for educational purposes</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
