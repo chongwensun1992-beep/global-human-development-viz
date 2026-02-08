@@ -21,6 +21,7 @@ DATA_PATH = BASE_DIR.parent / "data" / "processed" / "cleaned.csv"
 # -----------------------------
 df_raw = pd.read_csv(DATA_PATH)
 
+
 def normalize(df: pd.DataFrame) -> pd.DataFrame:
     cols = {c.lower(): c for c in df.columns}
 
@@ -40,12 +41,14 @@ def normalize(df: pd.DataFrame) -> pd.DataFrame:
 
     # long format: Country/year/metric/value already exists
     if country_col and year_col and metric_col and value_col:
-        out = df.copy().rename(columns={
-            country_col: "Country",
-            year_col: "year",
-            metric_col: "metric",
-            value_col: "value",
-        })
+        out = df.copy().rename(
+            columns={
+                country_col: "Country",
+                year_col: "year",
+                metric_col: "metric",
+                value_col: "value",
+            }
+        )
 
         if region_col:
             out = out.rename(columns={region_col: "UNDP Region"})
@@ -73,6 +76,7 @@ def normalize(df: pd.DataFrame) -> pd.DataFrame:
     out["Human Development Group"] = "All"
     return out
 
+
 df = normalize(df_raw)
 df["year"] = pd.to_numeric(df["year"], errors="coerce").astype("Int64")
 df["value"] = pd.to_numeric(df["value"], errors="coerce")
@@ -84,19 +88,21 @@ all_regions = sorted(df["UNDP Region"].dropna().unique().tolist())
 all_groups = sorted(df["Human Development Group"].dropna().unique().tolist())
 all_countries = sorted(df["Country"].dropna().unique().tolist())
 
+
 def pick_default_metric(candidates, fallback=None):
     for name in candidates:
         if name in all_metrics:
             return name
     return fallback or (all_metrics[0] if all_metrics else None)
 
+
 DEFAULT_MAIN_METRIC = pick_default_metric(
     ["Expected Years of Schooling", "Life Expectancy at Birth", "Human Development Index"],
-    fallback=(all_metrics[0] if all_metrics else None)
+    fallback=(all_metrics[0] if all_metrics else None),
 )
 DEFAULT_X_METRIC = pick_default_metric(["Human Development Index", "HDI"], fallback=DEFAULT_MAIN_METRIC)
 DEFAULT_Y_METRIC = pick_default_metric(["Life Expectancy at Birth"], fallback=DEFAULT_MAIN_METRIC)
-DEFAULT_YEAR = 2006 if 2006 in all_years else (int(all_years[len(all_years)//2]) if all_years else 2006)
+DEFAULT_YEAR = 2006 if 2006 in all_years else (int(all_years[len(all_years) // 2]) if all_years else 2006)
 
 default_trend = [c for c in ["Canada", "China", "United States", "Japan", "Germany"] if c in all_countries]
 if not default_trend:
@@ -117,6 +123,7 @@ def filter_with_fallback(metric, year, region, group):
     if d.shape[0] == 0:
         return base, True
     return d, False
+
 
 def scatter_df(year, region, group, x_metric, y_metric):
     base = df[df["year"] == year].copy()
@@ -146,6 +153,7 @@ def scatter_df(year, region, group, x_metric, y_metric):
         wide["y"] = np.nan
 
     return wide, fallback_used
+
 
 # -----------------------------
 # Dash App
@@ -208,9 +216,7 @@ app.layout = html.Div(
             style={"height": "44px", "display": "flex", "alignItems": "center"},
             children=[html.H3("HDI Dashboard", style={"margin": 0})],
         ),
-
         dcc.Store(id="sidebar_state", data={"collapsed": False}),
-
         html.Div(
             id="page_body",
             style={
@@ -264,7 +270,6 @@ app.layout = html.Div(
                                 ),
                             ],
                         ),
-
                         html.Div(
                             id="left_content",
                             style={"marginTop": "10px"},
@@ -277,7 +282,6 @@ app.layout = html.Div(
                                     clearable=False,
                                 ),
                                 html.Div(style={"height": "10px"}),
-
                                 html.Label("Year"),
                                 dcc.Slider(
                                     id="year",
@@ -285,30 +289,33 @@ app.layout = html.Div(
                                     max=int(max(all_years)) if all_years else 2022,
                                     step=1,
                                     value=int(DEFAULT_YEAR),
-                                    marks={int(y): str(int(y)) for y in all_years[::max(1, len(all_years)//6)]} if all_years else None,
+                                    marks={
+                                        int(y): str(int(y))
+                                        for y in all_years[:: max(1, len(all_years) // 6)]
+                                    }
+                                    if all_years
+                                    else None,
                                     tooltip={"placement": "bottom", "always_visible": True},
                                 ),
                                 html.Div(style={"height": "10px"}),
-
                                 html.Label("UNDP Region"),
                                 dcc.Dropdown(
                                     id="region",
-                                    options=[{"label": "All", "value": "All"}] + [{"label": r, "value": r} for r in all_regions],
+                                    options=[{"label": "All", "value": "All"}]
+                                    + [{"label": r, "value": r} for r in all_regions],
                                     value="All",
                                     clearable=False,
                                 ),
                                 html.Div(style={"height": "10px"}),
-
                                 html.Label("Human Dev Group"),
                                 dcc.Dropdown(
                                     id="group",
-                                    options=[{"label": "All", "value": "All"}] + [{"label": g, "value": g} for g in all_groups],
+                                    options=[{"label": "All", "value": "All"}]
+                                    + [{"label": g, "value": g} for g in all_groups],
                                     value="All",
                                     clearable=False,
                                 ),
-
                                 html.Hr(),
-
                                 html.Label("Trend countries (Line)"),
                                 dcc.Dropdown(
                                     id="trend_countries",
@@ -317,9 +324,7 @@ app.layout = html.Div(
                                     multi=True,
                                     placeholder="Pick 1–6 countries",
                                 ),
-
                                 html.Hr(),
-
                                 html.Details(
                                     open=False,
                                     children=[
@@ -346,7 +351,6 @@ app.layout = html.Div(
                         ),
                     ],
                 ),
-
                 # -------- Center plots --------
                 html.Div(
                     id="center_panel",
@@ -360,18 +364,20 @@ app.layout = html.Div(
                         "overflow": "hidden",
                     },
                     children=[
-                        html.Div(style={**CARD, "height": "100%"}, children=[
-                            dcc.Graph(id="bar_top", style={"height": "100%"}, config=GRAPH_CONFIG)
-                        ]),
-                        html.Div(style={**CARD, "height": "100%"}, children=[
-                            dcc.Graph(id="scatter_xy", style={"height": "100%"}, config=GRAPH_CONFIG)
-                        ]),
-                        html.Div(style={**CARD, "height": "100%", "gridColumn": "1 / span 2"}, children=[
-                            dcc.Graph(id="line_trend", style={"height": "100%"}, config=GRAPH_CONFIG)
-                        ]),
+                        html.Div(
+                            style={**CARD, "height": "100%"},
+                            children=[dcc.Graph(id="bar_top", style={"height": "100%"}, config=GRAPH_CONFIG)],
+                        ),
+                        html.Div(
+                            style={**CARD, "height": "100%"},
+                            children=[dcc.Graph(id="scatter_xy", style={"height": "100%"}, config=GRAPH_CONFIG)],
+                        ),
+                        html.Div(
+                            style={**CARD, "height": "100%", "gridColumn": "1 / span 2"},
+                            children=[dcc.Graph(id="line_trend", style={"height": "100%"}, config=GRAPH_CONFIG)],
+                        ),
                     ],
                 ),
-
                 # -------- Right Legend/Help --------
                 html.Div(
                     id="right_panel",
@@ -417,6 +423,7 @@ def toggle_sidebar(n, state):
 
     return {"collapsed": collapsed}, left_panel_style, left_content_style, left_title_style
 
+
 # -----------------------------
 # Main charts + legend callback
 # -----------------------------
@@ -443,14 +450,17 @@ def update(metric_main, year, region, group, trend_countries, x_metric, y_metric
     d_bar, fb_bar = filter_with_fallback(metric_main, year, region, group)
     d_top = (
         d_bar.dropna(subset=["value"])
-        .groupby("Country", as_index=False)["value"].mean()
+        .groupby("Country", as_index=False)["value"]
+        .mean()
         .sort_values("value", ascending=False)
         .head(15)
     )
 
     fig_bar = px.bar(
         d_top.sort_values("value", ascending=True),
-        x="value", y="Country", orientation="h",
+        x="value",
+        y="Country",
+        orientation="h",
         title=f"Top Countries ({metric_main}) — {year}",
         labels={"value": metric_main, "Country": "Country"},
     )
@@ -462,7 +472,8 @@ def update(metric_main, year, region, group, trend_countries, x_metric, y_metric
 
     fig_sc = px.scatter(
         d_sc,
-        x="x", y="y",
+        x="x",
+        y="y",
         hover_name="Country",
         title=f"{x_metric} vs {y_metric} — {year}",
         labels={"x": x_metric, "y": y_metric},
@@ -486,7 +497,9 @@ def update(metric_main, year, region, group, trend_countries, x_metric, y_metric
 
     fig_line = px.line(
         d_line_rg,
-        x="year", y="value", color="Country",
+        x="year",
+        y="value",
+        color="Country",
         title=f"Trends ({metric_main})",
         labels={"year": "Year", "value": metric_main},
     )
@@ -512,16 +525,13 @@ def update(metric_main, year, region, group, trend_countries, x_metric, y_metric
         html.Div([html.B("Region used: "), str(used_region)]),
         html.Div([html.B("Group used: "), str(used_group)]),
         html.Div(style={"height": "10px"}),
-
         html.Div(html.B("Scatter metrics:")),
         html.Div(f"X = {x_metric}"),
         html.Div(f"Y = {y_metric}"),
         html.Div(style={"height": "10px"}),
-
         html.Div(html.B("Trend countries:")),
         html.Div(", ".join(trend_countries[:8]) + (" ..." if len(trend_countries) > 8 else "")),
         html.Div(style={"height": "10px"}),
-
         html.Div(html.B("Tips:")),
         html.Ul(
             [
@@ -531,20 +541,22 @@ def update(metric_main, year, region, group, trend_countries, x_metric, y_metric
             ],
             style={"margin": "6px 0 0 18px"},
         ),
-
         html.Div(style={"height": "10px"}),
-
-        html.Div([html.B("Fallback status: "), "✅ None" if not fallback_notes else "⚠️ " + " | ".join(fallback_notes)]),
+        html.Div(
+            [
+                html.B("Fallback status: "),
+                "✅ None" if not fallback_notes else "⚠️ " + " | ".join(fallback_notes),
+            ]
+        ),
     ]
 
     return fig_bar, fig_sc, fig_line, legend
-app = Dash(__name__)
-server = app.server
+
+
 # -----------------------------
 # Local run (Render uses gunicorn)
 # -----------------------------
 if __name__ == "__main__":
-    # Render provides PORT env var for web services; locally default to 8050
     port = int(os.environ.get("PORT", "8050"))
     debug = os.environ.get("DASH_DEBUG", "").lower() in ("1", "true", "yes")
     app.run(host="0.0.0.0", port=port, debug=debug)
