@@ -538,7 +538,8 @@ def update(metric_main, year, region, group, trend_countries, x_metric, y_metric
     ]
 
     return fig_bar, fig_sc, fig_line, legend
-
+app = Dash(__name__)
+server = app.server
 # -----------------------------
 # Local run (Render uses gunicorn)
 # -----------------------------
