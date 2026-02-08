@@ -9,15 +9,15 @@ This project provides an intuitive interface to visualize and analyze the Human 
 ## Features
 
 ### Interactive Visualizations
-- **Country Rankings Bar Chart**: View top countries ranked by selected metrics
-- **HDI vs GDP Scatter Plot**: Explore the relationship between economic wealth and human development
-- **Regional Comparison**: Compare average development indicators across continents
-- **Dynamic Data Table**: Sortable table with comprehensive country statistics
+- **Country Rankings Bar Chart**: View top 15 countries ranked by selected metrics with color-coded HDI categories
+- **Regional Comparison**: Compare average HDI and Education Index across all continents with side-by-side bar charts
+- **Dynamic Data Table**: Sortable and searchable table with comprehensive country statistics
 
 ### Interactive Controls
-- **Year Slider**: Navigate through historical data (2010-2023)
+- **Year Slider**: Navigate through historical data (2010-2023) - *Note: Current dataset includes 2023 data only*
 - **Region Filter**: Focus on specific geographical regions (Africa, Asia, Europe, Americas, Oceania)
 - **Metric Selector**: Switch between HDI, Life Expectancy, GDP per Capita, and Education Index
+- **Search Box**: Find specific countries by name
 
 ### Data Insights
 - Color-coded HDI categories (Very High, High, Medium, Low)
@@ -75,9 +75,8 @@ global-human-development-viz/
 
 - **HTML5** - Structure and semantic markup
 - **CSS3** - Styling, layouts, and responsive design
-- **JavaScript (ES6+)** - Application logic and interactivity
-- **D3.js v7** - Data visualization library
-- **Plotly.js** - Interactive charting library
+- **JavaScript (ES6+)** - Application logic, interactivity, and visualizations
+- **Pure Vanilla JavaScript** - All visualizations built with native DOM manipulation (no external libraries required)
 
 ## Data Source
 
@@ -92,13 +91,14 @@ The data presented in this visualization is based on estimates from the United N
 ## Future Enhancements
 
 Potential features for future development:
-- Historical trend analysis with time-series charts
-- Country-to-country comparison tool
-- Interactive world map visualization
+- Historical trend analysis with multi-year data and time-series charts
+- HDI vs GDP scatter plot visualization to explore correlations
+- Country-to-country comparison tool with side-by-side metrics
+- Interactive world map visualization with clickable countries
 - Data export functionality (CSV, JSON)
 - Additional indicators (inequality-adjusted HDI, gender development index)
-- Integration with live UNDP API data
-- Predictive analytics and forecasting
+- Integration with live UNDP API data for real-time updates
+- Predictive analytics and forecasting based on historical trends
 
 ## Contributing
 

@@ -23,6 +23,8 @@ function setupEventListeners() {
     yearSlider.addEventListener('input', function() {
         currentYear = parseInt(this.value);
         yearDisplay.textContent = currentYear;
+        // Note: Year filtering is currently non-functional as the dataset only contains 2023 data
+        // This slider is included for future implementation when historical data is added
         updateVisualizations();
         updateStatistics();
     });
