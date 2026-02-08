@@ -5,13 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Global Human Development Visualization</title>
     <link rel="stylesheet" href="styles.css">
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>Global Human Development Index</h1>
+            <h1>🌍 Global Human Development Index</h1>
             <p class="subtitle">Exploring human development across nations</p>
         </div>
     </header>
@@ -43,33 +41,51 @@
                     <option value="education">Education Index</option>
                 </select>
             </div>
-        </div>
+        </section>
+
+        <section class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-value" id="total-countries">40</div>
+                <div class="stat-label">Countries</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-hdi">0.786</div>
+                <div class="stat-label">Average HDI</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-life">74.8</div>
+                <div class="stat-label">Avg Life Expectancy</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="avg-gdp">$24,180</div>
+                <div class="stat-label">Avg GDP per Capita</div>
+            </div>
+        </section>
 
         <section class="visualization">
-            <div class="viz-container">
-                <h2>Country Rankings</h2>
-                <div id="bar-chart"></div>
+            <div class="viz-container full-width">
+                <h2>Top 15 Countries by Selected Metric</h2>
+                <div id="bar-chart" class="chart-container"></div>
             </div>
             
-            <div class="viz-container">
-                <h2>HDI vs GDP per Capita</h2>
-                <div id="scatter-plot"></div>
-            </div>
-            
-            <div class="viz-container">
-                <h2>Regional Comparison</h2>
-                <div id="regional-chart"></div>
+            <div class="viz-container full-width">
+                <h2>Regional Comparison: HDI & Education Index</h2>
+                <div id="regional-chart" class="chart-container"></div>
             </div>
         </section>
 
         <section class="data-table">
             <h2>Country Data</h2>
+            <div class="table-controls">
+                <input type="text" id="search-box" placeholder="Search countries..." />
+            </div>
             <div class="table-wrapper">
                 <table id="country-table">
                     <thead>
                         <tr>
                             <th>Rank</th>
                             <th>Country</th>
+                            <th>Region</th>
                             <th>HDI</th>
                             <th>Life Expectancy</th>
                             <th>GDP per Capita</th>
@@ -114,7 +130,7 @@
 
     <footer>
         <div class="container">
-            <p>Data Source: United Nations Development Programme (UNDP)</p>
+            <p>📊 Data Source: United Nations Development Programme (UNDP)</p>
             <p>Visualization created for educational purposes</p>
         </div>
     </footer>
