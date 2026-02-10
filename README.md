@@ -51,13 +51,33 @@ This project is designed as a **single-page, full-screen dashboard** with respon
 
 ```text
 .
-├── app.py                 # Main Dash application
-├── data/
-│   └── processed/
-│       └── cleaned.csv    # Preprocessed HDI dataset
-├── README.md
-├── LICENSE.md
-├── .gitignore
+├── app.py # Main Dash application entry point
+│
+├── data/ # Data directory
+│ ├── raw/ # Original raw data (unchanged)
+│ │ ├── dataset.csv # Raw HDI dataset
+│ │ └── data_check.py # Data validation and sanity checks
+│ │
+│ └── processed/ # Processed and cleaned data
+│ ├── cleaned.csv # Cleaned dataset used by the Dash app
+│ └── data_process.py # Data cleaning and preprocessing script
+│
+├── doc/ # Project documentation by milestone
+│ ├── milestone_1/ # Milestone 1 deliverables
+│ ├── milestone_2/ # Milestone 2 deliverables
+│ ├── milestone_3/ # Milestone 3 deliverables
+│ └── milestone_4/ # Milestone 4 deliverables
+│
+├── src/ # Source code directory
+│ └── app.py # Dash application logic (if separated)
+│
+├── README.md # Project overview and instructions
+├── LICENSE.md # Project license
+├── .gitignore # Git ignore rules
+├── Procfile # Deployment configuration (e.g., Render/Heroku)
+├── render.yaml # Render deployment settings
+├── requirements.txt # Python dependencies
+└── runtime.txt # Python runtime version
 ```
 
 ## 🚀 Getting Started
@@ -65,8 +85,8 @@ This project is designed as a **single-page, full-screen dashboard** with respon
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/hdi-dashboard.git
-cd hdi-dashboard
+https://github.com/chongwensun1992-beep/global-human-development-viz.git
+cd global-human-development-viz
 ```
 ### 2. Install dependencies
 ```bash
