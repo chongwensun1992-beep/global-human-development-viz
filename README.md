@@ -102,6 +102,11 @@ to view the dashboard.
 ---
 ## 📄 License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE.md) file for details.
-## 📧 Authors
-Chongwen Sun |
-*Master of Data Science, UBC Okanagan*
+## 👥 Project Group
+
+**Group 1** (4 students)
+
+- Chongwen Sun  
+- Preethi Vezhavendan
+- Manpreet Singh
+- Spandan Dey
